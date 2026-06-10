@@ -1,0 +1,32 @@
+{
+    "us_news": {
+        "title": "U.S. Headlines",
+        "icon": "fas fa-flag-usa text-blue-500",
+        "url": "https://feeds.reuters.com/Reuters/domesticNews",
+        "enabled": true
+    },
+    "latam_news": {
+        "title": "Latin America",
+        "icon": "fas fa-globe-americas text-emerald-500",
+        "url": "https://www.bbc.com/news/world/latin_america/rss.xml",
+        "enabled": true
+    },
+    "soccer": {
+        "title": "World Soccer",
+        "icon": "fas fa-futbol text-amber-500",
+        "url": "https://www.espn.com/soccer/rss",
+        "enabled": true
+    },
+    "technology": {
+        "title": "Technology & Dev",
+        "icon": "fas fa-laptop-code text-cyan-500",
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml",
+        "enabled": false
+    },
+    "geopolitics": {
+        "title": "In-Depth Geo-Politics",
+        "icon": "fas fa-landmark text-purple-500",
+        "url": "https://www.foreignaffairs.com/rss.xml",
+        "enabled": false
+    }
+}

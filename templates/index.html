@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Lab Hub</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen">
+
+    <header class="bg-slate-800 border-b border-slate-700 shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-600 p-2 rounded-lg shadow-md shadow-indigo-500/20">
+                    <i class="fas fa-server text-xl text-white"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">NEXUS_CORE</h1>
+                    <p class="text-xs text-slate-400 font-mono">Home Lab Management Portal</p>
+                </div>
+            </div>
+            
+            <div id="weather-widget" class="flex items-center bg-slate-900/60 border border-slate-700/50 rounded-xl px-4 py-2 text-sm text-slate-300">
+                <i class="fas fa-spinner fa-spin text-cyan-400 mr-2"></i>
+                <span>Locating browser...</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-6">
+        
+        <div class="flex border-b border-slate-700 mb-6">
+            <button onclick="switchTab('feed-tab', this)" class="tab-btn px-6 py-3 font-semibold text-sm tracking-wide border-b-2 border-indigo-500 text-indigo-400 transition-all duration-200 focus:outline-none">
+                <i class="fas fa-rss mr-2"></i>Curated Feeds & Weather
+            </button>
+            <button onclick="switchTab('links-tab', this)" class="tab-btn px-6 py-3 font-semibold text-sm tracking-wide border-b-2 border-transparent text-slate-400 hover:text-slate-200 hover:border-slate-600 transition-all duration-200 focus:outline-none">
+                <i class="fas fa-compass mr-2"></i>Network Directory Links
+            </button>
+        </div>
+
+        <div id="feed-tab" class="tab-content grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            {% for feed in active_feeds %}
+            <div class="bg-slate-800/60 border border-slate-700/70 rounded-2xl p-5 shadow-xl backdrop-blur-sm flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center space-x-2 pb-4 mb-4 border-b border-slate-700/50">
+                        <i class="{{ feed.icon }} text-lg"></i>
+                        <h2 class="text-base font-bold uppercase tracking-wider text-slate-200">{{ feed.title }}</h2>
+                    </div>
+                    <div class="space-y-4">
+                        {% for item in feed.headlines %}
+                        <div class="group border-l-2 border-slate-700 hover:border-indigo-500 pl-3 py-1 transition-all">
+                            <span class="text-[10px] font-mono text-slate-500 block mb-0.5">{{ item.published }}</span>
+                            <a href="{{ item.link }}" target="_blank" class="block text-sm font-medium text-slate-300 group-hover:text-indigo-400 transition">{{ item.title }}</a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+
+        <div id="links-tab" class="tab-content hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <div class="bg-slate-800/60 border border-slate-700/70 rounded-2xl p-5 shadow-xl">
+                <h3 class="text-sm font-bold tracking-widest text-indigo-400 uppercase font-mono mb-4 flex items-center">
+                    <i class="fas fa-home-user mr-2 text-base"></i> Local Apps
+                </h3>
+                <div class="space-y-2">
+                    <a href="http://localhost:5001" target="_blank" class="flex items-center justify-between p-3 bg-slate-900/50 hover:bg-indigo-900/30 border border-slate-700/60 hover:border-indigo-500/50 rounded-xl transition group">
+                        <span class="text-sm font-medium text-slate-300 group-hover:text-white">Network Monitor</span>
+                        <i class="fas fa-heartbeat text-slate-500 group-hover:text-indigo-400 text-xs transition"></i>
+                    </a>
+                    <a href="http://localhost:5002" target="_blank" class="flex items-center justify-between p-3 bg-slate-900/50 hover:bg-indigo-900/30 border border-slate-700/60 hover:border-indigo-500/50 rounded-xl transition group">
+                        <span class="text-sm font-medium text-slate-300 group-hover:text-white">Video Streamer</span>
+                        <i class="fas fa-video text-slate-500 group-hover:text-indigo-400 text-xs transition"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-slate-800/60 border border-slate-700/70 rounded-2xl p-5 shadow-xl">
+                <h3 class="text-sm font-bold tracking-widest text-cyan-400 uppercase font-mono mb-4 flex items-center">
+                    <i class="fas fa-network-wired mr-2 text-base"></i> Infrastructure
+                </h3>
+                <div class="space-y-2">
+                    <a href="https://192.168.1.100:8006" target="_blank" class="flex items-center justify-between p-3 bg-slate-900/50 hover:bg-cyan-900/30 border border-slate-700/60 hover:border-cyan-500/50 rounded-xl transition group">
+                        <span class="text-sm font-medium text-slate-300 group-hover:text-white">Proxmox VE</span>
+                        <i class="fas fa-microchip text-slate-500 group-hover:text-cyan-400 text-xs transition"></i>
+                    </a>
+                    <a href="https://login.tailscale.com" target="_blank" class="flex items-center justify-between p-3 bg-slate-900/50 hover:bg-cyan-900/30 border border-slate-700/60 hover:border-cyan-500/50 rounded-xl transition group">
+                        <span class="text-sm font-medium text-slate-300 group-hover:text-white">Tailscale Admin</span>
+                        <i class="fas fa-shield-halved text-slate-500 group-hover:text-cyan-400 text-xs transition"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-slate-800/60 border border-slate-700/70 rounded-2xl p-5 shadow-xl">
+                <h3 class="text-sm font-bold tracking-widest text-emerald-400 uppercase font-mono mb-4 flex items-center">
+                    <i class="fas fa-tools mr-2 text-base"></i> Dev Utilities
+                </h3>
+                <div class="space-y-2">
+                    <a href="https://github.com" target="_blank" class="flex items-center justify-between p-3 bg-slate-900/50 hover:bg-emerald-900/30 border border-slate-700/60 hover:border-emerald-500/50 rounded-xl transition group">
+                        <span class="text-sm font-medium text-slate-300 group-hover:text-white">GitHub Portal</span>
+                        <i class="fas fa-code-branch text-slate-500 group-hover:text-emerald-400 text-xs transition"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-slate-800/60 border border-slate-700/70 rounded-2xl p-5 shadow-xl">
+                <h3 class="text-sm font-bold tracking-widest text-amber-400 uppercase font-mono mb-4 flex items-center">
+                    <i class="fas fa-star mr-2 text-base"></i> External Links
+                </h3>
+                <div class="space-y-2">
+                    <a href="https://news.google.com" target="_blank" class="flex items-center justify-between p-3 bg-slate-900/50 hover:bg-amber-900/30 border border-slate-700/60 hover:border-amber-500/50 rounded-xl transition group">
+                        <span class="text-sm font-medium text-slate-300 group-hover:text-white">Google News</span>
+                        <i class="fas fa-arrow-up-right-from-square text-slate-500 group-hover:text-amber-400 text-xs transition"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        function switchTab(tabId, element) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('border-indigo-500', 'text-indigo-400');
+                btn.classList.add('border-transparent', 'text-slate-400');
+            });
+            document.getElementById(tabId).classList.remove('hidden');
+            element.classList.remove('border-transparent', 'text-slate-400');
+            element.classList.add('border-indigo-500', 'text-indigo-400');
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const widget = document.getElementById('weather-widget');
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    async (position) => {
+                        const lat = position.coords.latitude.toFixed(2);
+                        const lon = position.coords.longitude.toFixed(2);
+                        try {
+                            const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&temperature_unit=fahrenheit`);
+                            if (!response.ok) throw new Error("API error");
+                            const data = await response.json();
+                            const temp = Math.round(data.current_weather.temperature);
+                            const code = data.current_weather.weathercode;
+                            
+                            let iconClass = "fa-cloud-sun";
+                            if (code === 0) iconClass = "fa-sun text-amber-400";
+                            else if (code > 0 && code <= 3) iconClass = "fa-cloud-sun text-slate-300";
+                            else if (code >= 51 && code <= 67) iconClass = "fa-cloud-showers-heavy text-blue-400";
+                            else if (code >= 71 && code <= 77) iconClass = "fa-snowflake text-cyan-200";
+                            
+                            widget.innerHTML = `
+                                <i class="fas ${iconClass} mr-2 text-base"></i>
+                                <span class="font-semibold font-mono text-slate-200">${temp}°F</span>
+                                <span class="mx-2 text-slate-600">|</span>
+                                <span class="text-xs text-slate-400">Lat: ${lat} Lon: ${lon}</span>
+                            `;
+                        } catch (err) {
+                            widget.innerHTML = `<i class="fas fa-triangle-exclamation text-amber-500 mr-2"></i><span class="text-xs text-slate-400">Weather unavailable</span>`;
+                        }
+                    },
+                    () => {
+                        widget.innerHTML = `<i class="fas fa-location-crosshairs text-slate-500 mr-2"></i><span class="text-xs text-slate-400">Location blocked</span>`;
+                    }
+                );
+            } else {
+                widget.innerHTML = `<span>Geolocation unsupported</span>`;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -29,4 +29,49 @@ homelab-dashboard/
 ├── requirements.txt
 └── templates/
     └── index.html
+```
 
+---
+
+## Requirements
+
+- Python 3.8 or newer
+- Flask
+
+---
+
+## Installation (one-time)
+
+Create a virtual environment
+
+```bash
+python3 -m venv venv
+```
+
+Install the required packages
+```bash
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+## Running the app
+```bash
+python app.py
+```
+
+Then, open your web browser of choice and log onto http://<your-server-ip>:8080 (or http://localhost:8080).
+
+---
+
+## Customizing Content Feeds
+
+To add new categories, swap news outlets, or disable a specific feed layout column, open feeds.json and adjust the structural keys. Changes take effect on the very next browser refresh without requiring a backend runtime reset:
+
+```json
+"technology": {
+    "title": "Technology & Dev",
+    "icon": "fas fa-laptop-code text-cyan-500",
+    "url": "[https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml](https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml)",
+    "enabled": true
+}
+```

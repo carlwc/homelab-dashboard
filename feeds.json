@@ -2,7 +2,7 @@
     "us_news": {
         "title": "U.S. Headlines",
         "icon": "fas fa-flag-usa text-blue-500",
-        "url": "https://feeds.reuters.com/Reuters/domesticNews",
+        "url": "https://feeds.npr.org/1001/rss.xml",
         "enabled": true
     },
     "latam_news": {
@@ -14,7 +14,7 @@
     "soccer": {
         "title": "World Soccer",
         "icon": "fas fa-futbol text-amber-500",
-        "url": "https://www.espn.com/soccer/rss",
+        "url": "https://www.skysports.com/rss/11095",
         "enabled": true
     },
     "technology": {
